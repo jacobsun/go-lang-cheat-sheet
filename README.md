@@ -377,38 +377,61 @@ there:
 ## Arrays, Slices, Ranges
 
 ### Arrays
-```go
-var a [10]int // declare an int array with length 10. Array length is part of the type!
-a[3] = 42     // set elements
-i := a[3]     // read elements
 
-// declare and initialize
-var a = [2]int{1, 2}
-a := [2]int{1, 2} //shorthand
-a := [...]int{1, 2} // elipsis -> Compiler figures out array length
+Syntax:
+
+```go
+[length]Type
+[length]Type{value1, value2, ..., valueN}
+[...]Type{value1, value2, ..., valueN}
 ```
 
-### Slices
-```go
-var a []int                              // declare a slice - similar to an array, but length is unspecified
-var a = []int {1, 2, 3, 4}               // declare and initialize a slice (backed by the array given implicitly)
-a := []int{1, 2, 3, 4}                   // shorthand
-chars := []string{0:"a", 2:"c", 1: "b"}  // ["a", "b", "c"]
+Array length is part of the type!
 
-var b = a[lo:hi]	// creates a slice (view of the array) from index lo to hi-1
-var b = a[1:4]		// slice from index 1 to 3
-var b = a[:3]		// missing low index implies 0
-var b = a[3:]		// missing high index implies len(a)
+```go
+var a [10]int
+var b = [3]int{0, 1, 2}
+var c = [...]int{0, 1, 2} //Compiler figures out array length.
+
+// declare and initialize
+a := [2]int{1, 2}
+b := [...]int{1, 2}
+
+// read and write
+a[3] = 42     // set elements
+i := a[3]     // read elements
+```
+
+
+### Slices
+
+Syntax:
+
+```go
+[]Type
+[]Type{value1, value2, ..., valueN}
+make([]Type, length)
+make([]Type, length, capacity)
+ArrayID[start:end]
+```
+
+```go
+var a []int                              // length: 0
+var a = []int {1, 2, 3, 4}               // length: 4
+var a = make([]byte, 5, 5)	         // length: 5
+var a = make([]byte, 5)	                 // length: 5
+
+var b = foo[2:4]                         // length: 2
+var b = foo[:4]                          // start: 0
+var b = foo[2:]                          // end: len(foo)
+var b = foo[:]
+
 a =  append(a,17,3)	// append items to slice a
 c := append(a,b...)	// concatenate slices a and b
 
-// create a slice with make
-a = make([]byte, 5, 5)	// first arg length, second capacity
-a = make([]byte, 5)	// capacity is optional
-
-// create a slice from an array
-x := [3]string{"Лайка", "Белка", "Стрелка"}
-s := x[:] // a slice referencing the storage of x
+var d []int              // nil slice
+var d []int{}            // empty slice
+var d = make([]int, 0)   // empty slice
 ```
 
 ### Operations on Arrays and Slices
